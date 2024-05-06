@@ -92,10 +92,10 @@ const changeMode = (e) => {
 .drawer-container {
   transition: all 0.2s;
   &:hover{
-    right: 0
+    right: 4px
   }
   position: fixed;
-  right: -20px;
+  right: -10px;
   bottom: 15%;
   height: 40px;
   width: 40px;
@@ -104,7 +104,7 @@ const changeMode = (e) => {
   justify-content: center;
   z-index: 999;
   color: #fff;
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
   cursor: pointer;
   -webkit-box-shadow: inset 0 0 6px rgba(0 ,0 ,0, 10%);
 }
