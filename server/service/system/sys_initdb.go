@@ -5,10 +5,14 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"sort"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/consts"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/redis"
 	"gorm.io/gorm"
-	"sort"
 )
 
 const (
@@ -49,6 +53,7 @@ type TypedDBInitHandler interface {
 	WriteConfig(ctx context.Context) error                                       // 回写配置
 	InitTables(ctx context.Context, inits initSlice) error                       // 建表 handler
 	InitData(ctx context.Context, inits initSlice) error                         // 建数据 handler
+	TestDB(ctx context.Context, conf *request.InitDB) error                      // 测试数据库连接
 }
 
 // orderedInitializer 组合一个顺序字段，以供排序
@@ -186,4 +191,46 @@ func (a initSlice) Less(i, j int) bool {
 
 func (a initSlice) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
+}
+
+func (initDBService *InitDBService) TestDB(ctx context.Context, conf request.TestDb) error {
+	var initHandler TypedDBInitHandler
+	switch conf.DBType {
+	case "mysql":
+		initHandler = NewMysqlInitHandler()
+	case "pgsql":
+		initHandler = NewPgsqlInitHandler()
+	case "sqlite":
+		initHandler = NewSqliteInitHandler()
+	case "mssql":
+		initHandler = NewMssqlInitHandler()
+	default:
+		initHandler = NewMysqlInitHandler()
+	}
+	initDb := request.InitDB{
+		DBType:   conf.DBType,
+		Host:     conf.Host,
+		Port:     conf.Port,
+		UserName: conf.UserName,
+		Password: conf.Password,
+		DBName:   conf.DBName,
+		DBPath:   conf.DBPath,
+		Template: conf.Template,
+	}
+
+	return initHandler.TestDB(ctx, &initDb)
+
+}
+
+func (initDBService *InitDBService) TestRedis(ctx context.Context, conf request.InitRedis) error {
+	redisAddr := fmt.Sprintf("%s:%s", conf.Host, conf.Port)
+	_, err := redis.InitRedisClient(config.Redis{
+		Name:         consts.REIDS_NAME_DEFAULT,
+		Addr:         redisAddr,
+		Password:     conf.Password,
+		DB:           conf.DB,
+		UseCluster:   false,
+		ClusterAddrs: nil,
+	})
+	return err
 }

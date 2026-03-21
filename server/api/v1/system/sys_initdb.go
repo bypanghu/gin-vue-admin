@@ -57,3 +57,47 @@ func (i *DBApi) CheckDB(c *gin.Context) {
 	global.GVA_LOG.Info(message)
 	response.OkWithDetailed(gin.H{"needInit": needInit}, message, c)
 }
+
+// TestDB
+// @Tags     TestDB
+// @Summary  测试数据库连接
+// @Produce  application/json
+// @Param    data  body      request.InitDB                  true  "测试数据库连接参数"
+// @Success  200   {object}  response.Response{data=string}  "测试数据库连接"
+// @Router   /init/testdb [post]
+func (i *DBApi) TestDB(c *gin.Context) {
+	var dbInfo request.TestDb
+	if err := c.ShouldBindJSON(&dbInfo); err != nil {
+		global.GVA_LOG.Error("参数校验不通过!", zap.Error(err))
+		response.FailWithMessage("参数校验不通过", c)
+		return
+	}
+	if err := initDBService.TestDB(c.Request.Context(), dbInfo); err != nil {
+		global.GVA_LOG.Error("数据库连接失败!", zap.Error(err))
+		response.FailWithMessage("数据库连接失败，请查看后台日志，检查后在进行测试", c)
+		return
+	}
+	response.OkWithMessage("数据库连接成功", c)
+}
+
+// TestRedis
+// @Tags     TestRedis
+// @Summary  测试Redis连接
+// @Produce  application/json
+// @Param    data  body      request.InitDB                  true  "测试Redis连接参数"
+// @Success  200   {object}  response.Response{data=string}  "测试Redis连接"
+// @Router   /init/testredis [post]
+func (i *DBApi) TestRedis(c *gin.Context) {
+	var dbInfo request.InitRedis
+	if err := c.ShouldBindJSON(&dbInfo); err != nil {
+		global.GVA_LOG.Error("参数校验不通过!", zap.Error(err))
+		response.FailWithMessage("参数校验不通过", c)
+		return
+	}
+	if err := initDBService.TestRedis(c.Request.Context(), dbInfo); err != nil {
+		global.GVA_LOG.Error("Redis连接失败!", zap.Error(err))
+		response.FailWithMessage("Redis连接失败，请查看后台日志，检查后在进行测试", c)
+		return
+	}
+	response.OkWithMessage("Redis连接成功", c)
+}

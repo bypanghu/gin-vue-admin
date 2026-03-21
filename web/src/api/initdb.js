@@ -25,3 +25,33 @@ export const checkDB = () => {
     method: 'post'
   })
 }
+
+// @tags TestDb
+// @Summary 测试数据库连接
+// @Produce  application/json
+// @Param data body request.TestDB true "测试数据库连接参数"
+// @Success 200 {string} string "{"code":0,"data":{},"msg":"连接成功"}"
+// @Router /init/testdb [post]
+export const testDB = (data) => {
+  return service({
+    url: '/init/testDb',
+    method: 'post',
+    data,
+    donNotShowLoading: true
+  })
+}
+
+// @tags TestRedis
+// @Summary 测试Redis连接
+// @Produce  application/json
+// @Param data body request.TestRedis true "测试Redis连接参数"
+// @Success 200 {string} string "{"code":0,"data":{},"msg":"连接成功"}"
+// @Router /init/testredis [post]
+export const testRedis = (data) => {
+  return service({
+    url: '/init/testRedis',
+    method: 'post',
+    data,
+    donNotShowLoading: true
+  })
+}

@@ -2,8 +2,9 @@ package request
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"os"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/config"
 )
 
 type InitDB struct {
@@ -16,6 +17,25 @@ type InitDB struct {
 	DBName        string `json:"dbName" binding:"required"` // 数据库名
 	DBPath        string `json:"dbPath"`                    // sqlite数据库文件路径
 	Template      string `json:"template"`                  // postgresql指定template
+}
+
+type TestDb struct {
+	DBType   string `json:"dbType"`                    // 数据库类型
+	Host     string `json:"host"`                      // 服务器地址
+	Port     string `json:"port"`                      // 数据库连接端口
+	UserName string `json:"userName"`                  // 数据库用户名
+	Password string `json:"password"`                  // 数据库密码
+	DBName   string `json:"dbName" binding:"required"` // 数据库名
+	DBPath   string `json:"dbPath"`                    // sqlite数据库文件路径
+	Template string `json:"template"`                  // postgresql指定template
+}
+
+type InitRedis struct {
+	Host     string `json:"host" binding:"required"` // 服务器地址
+	Port     string `json:"port" binding:"required"` // Redis连接端口
+	Password string `json:"password"`                // Redis密码
+	DB       int    `json:"db"`                      // Redis数据库
+	Enable   bool   `json:"enable"`                  // 是否启用 Redis
 }
 
 // MysqlEmptyDsn msyql 空数据库 建库链接

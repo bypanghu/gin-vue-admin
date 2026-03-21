@@ -32,3 +32,10 @@ func HasInitial() bool {
 	}
 	return true
 }
+
+func AutoInitial() bool {
+	if !HasInitial() {
+		return env.GetEnvAsBool(consts.ENV_AUTO_INITIAL, true)
+	}
+	return false
+}

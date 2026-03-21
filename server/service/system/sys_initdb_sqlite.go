@@ -3,11 +3,12 @@ package system
 import (
 	"context"
 	"errors"
+	"path/filepath"
+
 	"github.com/glebarez/sqlite"
 	"github.com/google/uuid"
 	"github.com/gookit/color"
 	"gorm.io/gorm"
-	"path/filepath"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
@@ -85,4 +86,20 @@ func (h SqliteInitHandler) InitData(ctx context.Context, inits initSlice) error 
 	}
 	color.Info.Printf(InitSuccess, Sqlite)
 	return nil
+}
+
+func (h SqliteInitHandler) TestDB(ctx context.Context, conf *request.InitDB) error {
+	dsn := conf.SqliteEmptyDsn()
+	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
+	if err != nil {
+		return err
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Ping()
+
 }

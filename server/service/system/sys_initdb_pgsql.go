@@ -99,3 +99,21 @@ func (h PgsqlInitHandler) InitData(ctx context.Context, inits initSlice) error {
 	color.Info.Printf(InitSuccess, Pgsql)
 	return nil
 }
+
+// TestDB 测试数据库连接
+func (h PgsqlInitHandler) TestDB(ctx context.Context, conf *request.InitDB) error {
+	dsn := conf.PgsqlEmptyDsn()
+	pgsqlConfig := postgres.Config{
+		DSN:                  dsn, // DSN data source name
+		PreferSimpleProtocol: false,
+	}
+	db, err := gorm.Open(postgres.New(pgsqlConfig), &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true})
+	if err != nil {
+		return err
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Ping()
+}

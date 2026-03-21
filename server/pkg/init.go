@@ -16,5 +16,6 @@ func Init() {
 	fmt.Printf("%s gin-vue-admin pkg init success HasInitial=%v\n", prefix, initial.HasInitial())
 	fmt.Printf("%s 后端 gin 运行模式 mode=%s\n", prefix, env.GetEnv(consts.ENV_GIN_MODE, gin.DebugMode))
 	fmt.Printf("%s 数据目录 data path=%s\n", prefix, env.GetGvaDataPath())
+	fmt.Printf("%s 开启自动转跳初始化界面：%v\n", prefix, initial.AutoInitial())
 	fmt.Printf("+------------------ %s ------------------+\n", prefix)
 }

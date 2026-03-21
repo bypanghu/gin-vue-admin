@@ -3,6 +3,8 @@ package system
 import (
 	"context"
 	"errors"
+	"path/filepath"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/config"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
@@ -11,7 +13,6 @@ import (
 	"github.com/gookit/color"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
-	"path/filepath"
 )
 
 type MssqlInitHandler struct{}
@@ -89,4 +90,22 @@ func (h MssqlInitHandler) InitData(ctx context.Context, inits initSlice) error {
 	}
 	color.Info.Printf(InitSuccess, Mssql)
 	return nil
+}
+
+func (h MssqlInitHandler) TestDB(ctx context.Context, conf *request.InitDB) error {
+	dsn := conf.MssqlEmptyDsn()
+	mssqlConfig := sqlserver.Config{
+		DSN:               dsn, // DSN data source name
+		DefaultStringSize: 191, // string 类型字段的默认长度
+	}
+	db, err := gorm.Open(sqlserver.New(mssqlConfig), &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true})
+	if err != nil {
+		return err
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		return err
+	}
+	defer sqlDB.Close()
+	return sqlDB.Ping()
 }

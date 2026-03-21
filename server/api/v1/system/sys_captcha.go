@@ -6,6 +6,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	systemRes "github.com/flipped-aurora/gin-vue-admin/server/model/system/response"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/initial"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"go.uber.org/zap"
@@ -51,10 +52,12 @@ func (b *BaseApi) Captcha(c *gin.Context) {
 		return
 	}
 	response.OkWithDetailed(systemRes.SysCaptchaResponse{
-		CaptchaId:     id,
-		PicPath:       b64s,
-		CaptchaLength: global.GVA_CONFIG.Captcha.KeyLong,
-		OpenCaptcha:   oc,
+		CaptchaId:         id,
+		PicPath:           b64s,
+		CaptchaLength:     global.GVA_CONFIG.Captcha.KeyLong,
+		OpenCaptcha:       oc,
+		HasInitial:        initial.HasInitial(),
+		AutoHrefToInitial: initial.AutoInitial(),
 	}, "验证码获取成功", c)
 }
 

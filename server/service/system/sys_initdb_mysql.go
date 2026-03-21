@@ -95,3 +95,22 @@ func (h MysqlInitHandler) InitData(ctx context.Context, inits initSlice) error {
 	color.Info.Printf(InitSuccess, Mysql)
 	return nil
 }
+
+// TestDB 测试数据库连接
+func (h MysqlInitHandler) TestDB(ctx context.Context, conf *request.InitDB) error {
+	dsn := conf.MysqlEmptyDsn()
+	mysqlConfig := mysql.Config{
+		DSN:                       dsn,  // DSN data source name
+		DefaultStringSize:         191,  // string 类型字段的默认长度
+		SkipInitializeWithVersion: true, // 根据版本自动配置
+	}
+	db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Ping()
+}
