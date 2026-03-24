@@ -2,8 +2,10 @@ package global
 
 import (
 	"fmt"
-	"github.com/mark3labs/mcp-go/server"
 	"sync"
+	"time"
+
+	"github.com/mark3labs/mcp-go/server"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qiniu/qmgo"
@@ -38,6 +40,7 @@ var (
 	GVA_ACTIVE_DBNAME       *string
 	GVA_MCP_SERVER          *server.MCPServer
 	BlackCache              local_cache.Cache
+	GVA_START_TIME          time.Time
 	lock                    sync.RWMutex
 )
 

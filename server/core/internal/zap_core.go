@@ -3,16 +3,19 @@ package internal
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/env"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	astutil "github.com/flipped-aurora/gin-vue-admin/server/utils/ast"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/stacktrace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
-	"strings"
-	"time"
 )
 
 type ZapCore struct {
@@ -31,8 +34,9 @@ func NewZapCore(level zapcore.Level) *ZapCore {
 }
 
 func (z *ZapCore) WriteSyncer(formats ...string) zapcore.WriteSyncer {
+	zapLocalPath := filepath.Join(env.GetGvaDataPath(), global.GVA_CONFIG.Zap.Director)
 	cutter := NewCutter(
-		global.GVA_CONFIG.Zap.Director,
+		zapLocalPath,
 		z.level.String(),
 		global.GVA_CONFIG.Zap.RetentionDay,
 		CutterWithLayout(time.DateOnly),
