@@ -1,15 +1,32 @@
 package system
 
 import (
+	"errors"
+	"path/filepath"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/consts"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/env"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/initial"
 	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
 )
 
 type DBApi struct{}
+
+func failWithInitServiceError(c *gin.Context, err error, fallback string) {
+	if errors.Is(err, request.ErrUnsupportedInitDBType) ||
+		errors.Is(err, request.ErrRedisConfigRequired) ||
+		errors.Is(err, request.ErrRedisHostRequired) ||
+		errors.Is(err, request.ErrRedisPortRequired) {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.FailWithMessage(fallback, c)
+}
 
 // InitDB
 // @Tags     InitDB
@@ -19,9 +36,11 @@ type DBApi struct{}
 // @Success  200   {object}  response.Response{data=string}  "初始化用户数据库"
 // @Router   /init/initdb [post]
 func (i *DBApi) InitDB(c *gin.Context) {
-	if global.GVA_DB != nil {
-		global.GVA_LOG.Error("已存在数据库配置!")
-		response.FailWithMessage("已存在数据库配置", c)
+	if initial.HasInitial() {
+		dataPath := env.GetGvaDataPath()
+		lockFilePath := filepath.Join(dataPath, consts.INITIAL_LOCK_FILE_NAME)
+		global.GVA_LOG.Error("服务器已初始化过! 如需重新初始化，请删除初始化标志文件后再进行初始化", zap.String("标志文件", lockFilePath))
+		response.FailWithMessage("服务器已初始化过", c)
 		return
 	}
 	var dbInfo request.InitDB
@@ -32,7 +51,7 @@ func (i *DBApi) InitDB(c *gin.Context) {
 	}
 	if err := initDBService.InitDB(dbInfo); err != nil {
 		global.GVA_LOG.Error("自动创建数据库失败!", zap.Error(err))
-		response.FailWithMessage("自动创建数据库失败，请查看后台日志，检查后在进行初始化", c)
+		failWithInitServiceError(c, err, "自动创建数据库失败，请查看后台日志，检查后在进行初始化")
 		return
 	}
 	response.OkWithMessage("自动创建数据库成功", c)
@@ -74,7 +93,7 @@ func (i *DBApi) TestDB(c *gin.Context) {
 	}
 	if err := initDBService.TestDB(c.Request.Context(), dbInfo); err != nil {
 		global.GVA_LOG.Error("数据库连接失败!", zap.Error(err))
-		response.FailWithMessage("数据库连接失败，请查看后台日志，检查后在进行测试", c)
+		failWithInitServiceError(c, err, "数据库连接失败，请查看后台日志，检查后在进行测试")
 		return
 	}
 	response.OkWithMessage("数据库连接成功", c)
@@ -96,7 +115,7 @@ func (i *DBApi) TestRedis(c *gin.Context) {
 	}
 	if err := initDBService.TestRedis(c.Request.Context(), dbInfo); err != nil {
 		global.GVA_LOG.Error("Redis连接失败!", zap.Error(err))
-		response.FailWithMessage("Redis连接失败，请查看后台日志，检查后在进行测试", c)
+		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	response.OkWithMessage("Redis连接成功", c)

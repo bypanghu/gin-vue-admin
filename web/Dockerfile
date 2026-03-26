@@ -1,25 +1,32 @@
-# 如果需要用 cicd ，请设置环境变量：
-# variables:
-#     DOCKER_BUILDKIT: 1
-
+# syntax=docker/dockerfile:1.7
 FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-COPY . /app
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 WORKDIR /app
+RUN corepack enable
 
+FROM base AS deps
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+    pnpm install --frozen-lockfile --store-dir=/pnpm/store
 
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
-
-FROM base AS build
-COPY --from=prod-deps /app/node_modules /app/node_modules
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install && pnpm run build
+FROM deps AS build
+COPY . .
+RUN pnpm run build
 
 
 FROM nginx:alpine
 LABEL MAINTAINER="bypanghu@163.com"
-COPY --from=base  /app/.docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
-COPY --from=build  /app/dist /usr/share/nginx/html
-RUN ls -al /usr/share/nginx/html
+LABEL POWER="gin-vue-admin"
+ENV BACKEND=localhost \
+    BACKEND_API_PORT=8888 \
+    BACKEND_WS_PORT=8888 \
+    GZIP=on \
+    GZIP_STATIC=on
+RUN apk add --no-cache gettext
+RUN mkdir -p /etc/nginx/conf.d
+COPY --from=build /app/nginx/default.conf.template /etc/nginx/default.conf.template
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["/bin/sh", "-c", "envsubst '${BACKEND} ${BACKEND_API_PORT} ${BACKEND_WS_PORT} ${GZIP} ${GZIP_STATIC}' < /etc/nginx/default.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]

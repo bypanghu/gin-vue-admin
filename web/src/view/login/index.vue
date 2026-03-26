@@ -118,7 +118,7 @@
                   登 录
                 </el-button>
               </el-form-item>
-              <el-form-item v-if="isDev" class="mb-0">
+              <el-form-item v-if="!initial.isInitial" class="mb-0">
                 <el-button
                   class="h-12 w-full rounded-[18px] border-slate-200 bg-white text-slate-700 shadow-sm"
                   plain
@@ -296,18 +296,7 @@
 
   // 跳转初始化
   const checkInit = async () => {
-    const res = await checkDB()
-    if (res.code === 0) {
-      if (res.data?.needInit) {
-        userStore.NeedInit()
-        await router.push({ name: 'Init' })
-      } else {
-        ElMessage({
-          type: 'info',
-          message: '已配置数据库信息，无法初始化'
-        })
-      }
-    }
+    await router.push({ name: 'Init' })
   }
 </script>
 

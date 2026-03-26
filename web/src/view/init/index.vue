@@ -1,16 +1,24 @@
 <template>
-  <div class="init-page relative min-h-screen overflow-hidden">
+  <div
+    class="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_14%_10%,rgba(250,204,21,0.06),transparent_18%),radial-gradient(circle_at_96%_2%,rgba(59,130,246,0.12),transparent_16%),radial-gradient(circle_at_5%_100%,rgba(56,189,248,0.12),transparent_20%),linear-gradient(180deg,#fbfdfd_0%,#f7fbfb_48%,#f5fbff_100%)] lg:bg-[radial-gradient(circle_at_14%_10%,rgba(250,204,21,0.06),transparent_18%),radial-gradient(circle_at_96%_2%,rgba(59,130,246,0.12),transparent_16%),radial-gradient(circle_at_5%_100%,rgba(56,189,248,0.12),transparent_20%),linear-gradient(180deg,#fbfdfd_0%,#f7fbfb_48%,#f5fbff_100%)]"
+  >
     <div class="pointer-events-none absolute inset-0">
-      <div class="init-page__glow init-page__glow--primary" />
-      <div class="init-page__glow init-page__glow--secondary" />
-      <div class="init-page__grid" />
+      <div
+        class="absolute -right-16 -top-32 h-88 w-88 rounded-full bg-sky-500/20 opacity-70 blur-[120px]"
+      />
+      <div
+        class="absolute -bottom-16 -left-20 h-72 w-72 rounded-full bg-sky-300/25 opacity-70 blur-[120px]"
+      />
+      <div
+        class="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.045)_1px,transparent_1px)] bg-[length:54px_54px] [mask-image:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.48))]"
+      />
     </div>
 
     <div class="relative z-10 min-h-screen px-5 py-6 md:px-8 md:py-8 xl:px-12">
       <div
         class="mx-auto flex min-h-[calc(100vh-48px)] max-w-5xl items-center justify-center"
       >
-        <section class="init-shell w-full">
+        <section class="w-full pb-8 lg:pb-14">
           <div class="mb-8 flex flex-col items-center text-center">
             <div
               class="flex h-[72px] w-[72px] items-center justify-center rounded-[24px] text-slate-900 border border-[var(--el-color-primary-light-9)]"
@@ -27,42 +35,64 @@
             </p>
           </div>
 
-          <div class="init-panel rounded-[28px] p-6 sm:p-8 lg:p-10">
+          <div
+            class="relative overflow-hidden rounded-[28px] border border-white/95 bg-white/92 p-6 shadow-[0_24px_48px_rgba(148,163,184,0.14),inset_0_8px_24px_rgba(255,255,255,0.7)] backdrop-blur-[22px] sm:p-8 lg:p-10"
+          >
             <div class="mb-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
               <button
                 v-for="(step, index) in steps"
                 :key="step.title"
                 type="button"
-                class="init-step-card text-left"
+                class="rounded-[22px] border border-slate-200/90 bg-white/75 p-[18px] pb-5 text-left shadow-[0_8px_20px_rgba(148,163,184,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-200"
                 :class="{
-                  'is-active': currentStep === index,
-                  'is-completed': currentStep > index
+                  'border-sky-200 bg-[linear-gradient(180deg,var(--el-color-primary-light-10,#f0f8ff),rgba(255,255,255,0.92))] shadow-[0_12px_28px_rgba(59,130,246,0.12)]':
+                    currentStep === index,
+                  'border-sky-500/20 bg-slate-50/90': currentStep > index
                 }"
                 @click="goStep(index)"
               >
-                <span class="init-step-card__index">0{{ index + 1 }}</span>
-                <h2 class="init-step-card__title">{{ step.title }}</h2>
-                <p class="init-step-card__desc">{{ step.desc }}</p>
+                <span
+                  class="mb-2.5 inline-flex text-xs font-bold tracking-[0.24em] text-sky-500"
+                >
+                  0{{ index + 1 }}
+                </span>
+                <h2 class="text-lg font-semibold text-slate-900">
+                  {{ step.title }}
+                </h2>
+                <p class="mt-2 text-[13px] leading-6 text-slate-500">
+                  {{ step.desc }}
+                </p>
               </button>
             </div>
 
             <el-form :model="form" label-position="top" size="large">
-              <section v-show="currentStep === 0" class="init-section">
-                <div class="init-section__head">
-                  <p class="init-section__eyebrow">STEP 1</p>
-                  <h2 class="init-section__title">初始化提示</h2>
-                  <p class="init-section__desc">
+              <section
+                v-show="currentStep === 0"
+                class="rounded-3xl border border-slate-200/90 bg-white/75 p-6 shadow-[0_10px_26px_rgba(148,163,184,0.08)]"
+              >
+                <div class="mb-[18px]">
+                  <p class="mb-2 text-xs font-bold tracking-[0.24em] text-sky-500">
+                    STEP 1
+                  </p>
+                  <h2 class="text-2xl font-semibold leading-tight text-slate-900">
+                    初始化提示
+                  </h2>
+                  <p class="mt-2 text-sm leading-7 text-slate-500">
                     开始前先确认环境、文档和数据库引擎配置，避免初始化过程中出现可预期的问题。
                   </p>
                 </div>
                 <div class="grid gap-3">
-                  <div class="init-tip-card">
+                  <div
+                    class="rounded-[18px] border border-slate-200/90 bg-slate-50/90 px-[18px] py-4 leading-7 text-slate-700"
+                  >
                     请确认你已经具备基础的 Vue 和 Golang 使用经验。
                   </div>
-                  <div class="init-tip-card">
+                  <div
+                    class="rounded-[18px] border border-slate-200/90 bg-slate-50/90 px-[18px] py-4 leading-7 text-slate-700"
+                  >
                     初始化前建议先阅读
                     <a
-                      class="init-link"
+                      class="mx-1 font-semibold text-sky-500"
                       href="https://www.gin-vue-admin.com"
                       target="_blank"
                     >
@@ -70,7 +100,7 @@
                     </a>
                     与
                     <a
-                      class="init-link"
+                      class="mx-1 font-semibold text-sky-500"
                       href="https://www.bilibili.com/video/BV1kv4y1g7nT?p=2"
                       target="_blank"
                     >
@@ -78,14 +108,16 @@
                     </a>
                     。
                   </div>
-                  <div class="init-tip-card">
+                  <div
+                    class="rounded-[18px] border border-slate-200/90 bg-slate-50/90 px-[18px] py-4 leading-7 text-slate-700"
+                  >
                     如果你使用 MySQL，请确认数据库引擎为
                     <span class="font-semibold text-rose-500">InnoDB</span>。
                   </div>
                 </div>
                 <div class="mt-4 flex justify-end">
                   <el-button
-                    class="init-doc-btn"
+                    class="!rounded-[18px] !border-sky-200 !bg-white/90 !text-sky-500"
                     plain
                     size="large"
                     @click="goDoc"
@@ -95,12 +127,19 @@
                 </div>
               </section>
 
-              <section v-show="currentStep === 1" class="init-section">
-                <div class="init-section__head">
-                  <p class="init-section__eyebrow">STEP 2</p>
-                  <h2 class="init-section__title">数据库设置</h2>
-                  <p class="init-section__desc">
-                    先选择数据库类型，再填写数据库连接参数。下方测试连接按钮当前只做前端参数检查。
+              <section
+                v-show="currentStep === 1"
+                class="rounded-3xl border border-slate-200/90 bg-white/75 p-6 shadow-[0_10px_26px_rgba(148,163,184,0.08)]"
+              >
+                <div class="mb-[18px]">
+                  <p class="mb-2 text-xs font-bold tracking-[0.24em] text-sky-500">
+                    STEP 2
+                  </p>
+                  <h2 class="text-2xl font-semibold leading-tight text-slate-900">
+                    数据库设置
+                  </h2>
+                  <p class="mt-2 text-sm leading-7 text-slate-500">
+                    先选择数据库类型，再填写数据库连接参数。测试连接会调用后端接口校验当前配置是否可用。
                   </p>
                 </div>
 
@@ -112,11 +151,12 @@
                       class="w-full init-input"
                       @change="changeDB"
                     >
-                      <el-option key="mysql" label="mysql" value="mysql" />
-                      <el-option key="pgsql" label="pgsql" value="pgsql" />
-                      <el-option key="oracle" label="oracle" value="oracle" />
-                      <el-option key="mssql" label="mssql" value="mssql" />
-                      <el-option key="sqlite" label="sqlite" value="sqlite" />
+                      <el-option
+                        v-for="option in dbOptions"
+                        :key="option.value"
+                        :label="option.label"
+                        :value="option.value"
+                      />
                     </el-select>
                   </el-form-item>
                   <el-form-item label="数据库名称" class="mb-0">
@@ -197,7 +237,7 @@
 
                 <div class="mt-6 flex justify-end">
                   <el-button
-                    class="init-test-btn h-12 min-w-[140px]"
+                    class="h-12 min-w-[140px] !rounded-[18px] !border-sky-200 !bg-white/90 !text-sky-500"
                     plain
                     size="large"
                     @click="testConnection"
@@ -205,22 +245,38 @@
                     测试连接
                   </el-button>
                 </div>
+                <p class="mt-3 text-right text-sm text-slate-400">
+                  {{
+                    initialState.dbCheck
+                      ? '当前数据库配置已验证'
+                      : '修改数据库信息后需要重新测试连接'
+                  }}
+                </p>
               </section>
 
-              <section v-show="currentStep === 2" class="init-section">
-                <div class="init-section__head">
-                  <p class="init-section__eyebrow">STEP 3</p>
-                  <h2 class="init-section__title">Redis 配置</h2>
-                  <p class="init-section__desc">
-                    Redis 作为可选能力单独配置。启用后请填写连接信息。
+              <section
+                v-show="currentStep === 2"
+                class="rounded-3xl border border-slate-200/90 bg-white/75 p-6 shadow-[0_10px_26px_rgba(148,163,184,0.08)]"
+              >
+                <div class="mb-[18px]">
+                  <p class="mb-2 text-xs font-bold tracking-[0.24em] text-sky-500">
+                    STEP 3
+                  </p>
+                  <h2 class="text-2xl font-semibold leading-tight text-slate-900">
+                    Redis 配置
+                  </h2>
+                  <p class="mt-2 text-sm leading-7 text-slate-500">
+                    Redis 作为可选能力单独配置。启用后可测试连接，并在初始化成功时一并写入服务端配置。
                   </p>
                 </div>
 
                 <div class="grid gap-5 md:grid-cols-2">
                   <el-form-item label="启用 Redis" class="mb-0">
-                    <div class="init-switch-wrap">
+                    <div
+                      class="flex min-h-12 items-center gap-3 rounded-[14px] bg-white/95 px-[14px] shadow-[0_0_0_1px_rgb(226_232_240_/_0.95)]"
+                    >
                       <el-switch v-model="form.redisEnable" />
-                      <span class="init-switch-label">
+                      <span class="text-sm text-slate-600">
                         {{ form.redisEnable ? '已启用' : '未启用' }}
                       </span>
                     </div>
@@ -262,7 +318,7 @@
 
                 <div class="mt-6 flex justify-end">
                   <el-button
-                    class="init-test-btn h-12 min-w-[140px]"
+                    class="h-12 min-w-[140px] !rounded-[18px] !border-sky-200 !bg-white/90 !text-sky-500"
                     plain
                     size="large"
                     @click="testRedisConnection"
@@ -270,13 +326,29 @@
                     测试 Redis
                   </el-button>
                 </div>
+                <p class="mt-3 text-right text-sm text-slate-400">
+                  {{
+                    !form.redisEnable
+                      ? '未启用 Redis 时不会写入启用状态'
+                      : initialState.redisCheck
+                        ? '当前 Redis 配置已验证'
+                        : '修改 Redis 信息后需要重新测试连接'
+                  }}
+                </p>
               </section>
 
-              <section v-show="currentStep === 3" class="init-section">
-                <div class="init-section__head">
-                  <p class="init-section__eyebrow">STEP 4</p>
-                  <h2 class="init-section__title">系统设置</h2>
-                  <p class="init-section__desc">
+              <section
+                v-show="currentStep === 3"
+                class="rounded-3xl border border-slate-200/90 bg-white/75 p-6 shadow-[0_10px_26px_rgba(148,163,184,0.08)]"
+              >
+                <div class="mb-[18px]">
+                  <p class="mb-2 text-xs font-bold tracking-[0.24em] text-sky-500">
+                    STEP 4
+                  </p>
+                  <h2 class="text-2xl font-semibold leading-tight text-slate-900">
+                    系统设置
+                  </h2>
+                  <p class="mt-2 text-sm leading-7 text-slate-500">
                     设置管理员密码并进行二次确认，这里只做前端一致性校验。
                   </p>
                 </div>
@@ -303,7 +375,7 @@
 
               <div class="mt-8 flex items-center justify-between gap-3">
                 <el-button
-                  class="!rounded-full !px-12"
+                  class="!rounded-[18px] !border-slate-300/90 !bg-white/85 !px-12 !text-slate-600"
                   plain
                   size="large"
                   :disabled="currentStep === 0"
@@ -313,7 +385,7 @@
                 </el-button>
                 <el-button
                   v-if="currentStep < steps.length - 1"
-                  class="!rounded-full !px-12"
+                  class="!rounded-[18px] !px-12"
                   type="primary"
                   size="large"
                   @click="nextStep"
@@ -328,9 +400,13 @@
                 </el-button>
                 <el-button
                   v-else
-                  class="init-submit h-12 min-w-[160px] border-0 text-base font-semibold"
+                  class="h-12 min-w-[160px] !rounded-[18px] !border-0 !bg-[linear-gradient(135deg,var(--el-color-primary,#3b82f6)_0%,var(--el-color-primary-dark-1,#4d8df6)_100%)] text-base font-semibold !shadow-[0_10px_24px_rgba(59,130,246,0.24)]"
                   type="primary"
                   size="large"
+                  :disabled="
+                    !initialState.dbCheck ||
+                    (form.redisEnable && !initialState.redisCheck)
+                  "
                   @click="onSubmit"
                 >
                   立即初始化
@@ -347,10 +423,20 @@
 <script setup>
   // @ts-ignore
   import { initDB, testDB, testRedis } from '@/api/initdb'
-  import { reactive, ref } from 'vue'
+  import { reactive, ref, watch } from 'vue'
   import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
   import { useRouter } from 'vue-router'
   import Logo from '@/components/logo/index.vue'
+  import {
+    INIT_DB_OPTIONS,
+    buildInitPayload,
+    buildRedisPayload,
+    buildTestDBPayload,
+    getDatabaseTestSnapshot,
+    getDefaultInitForm,
+    getFormWithDBDefaults,
+    getRedisTestSnapshot
+  } from './init-state'
 
   defineOptions({
     name: 'Init'
@@ -358,6 +444,7 @@
 
   const router = useRouter()
   const currentStep = ref(0)
+  const dbOptions = INIT_DB_OPTIONS
   const steps = [
     {
       title: '提示说明',
@@ -377,28 +464,14 @@
     }
   ]
 
-  const form = reactive({
-    adminPassword: '',
-    confirmAdminPassword: '',
-    redisEnable: false,
-    redisHost: '127.0.0.1',
-    redisPort: '6379',
-    redisPassword: '',
-    redisDB: 0,
-    dbType: 'mysql',
-    host: '127.0.0.1',
-    port: '3306',
-    userName: 'root',
-    password: '',
-    dbName: 'gva',
-    dbPath: '',
-    template: ''
-  })
+  const form = reactive(getDefaultInitForm())
 
   const initialState = reactive({
     dbCheck: false,
     redisCheck: false
   })
+  const dbTestSnapshot = ref('')
+  const redisTestSnapshot = ref('')
 
   const goDoc = () => {
     window.open('https://www.gin-vue-admin.com/guide/start-quickly/env.html')
@@ -545,16 +618,7 @@
     })
 
     try {
-      const payload = {
-        dbType: form.dbType,
-        host: form.host,
-        port: form.port,
-        userName: form.userName,
-        password: form.password,
-        dbName: form.dbName,
-        dbPath: form.dbPath,
-        template: form.template
-      }
+      const payload = buildTestDBPayload(form)
       const res = await testDB(payload)
       if (res.code === 0) {
         ElMessage({
@@ -562,6 +626,7 @@
           message: res.msg || '数据库连接成功'
         })
         initialState.dbCheck = true
+        dbTestSnapshot.value = getDatabaseTestSnapshot(form)
       }
     } finally {
       loading.close()
@@ -589,19 +654,14 @@
     })
 
     try {
-      const res = await testRedis({
-        host: form.redisHost,
-        port: form.redisPort,
-        password: form.redisPassword,
-        db: form.redisDB,
-        enable: form.redisEnable
-      })
+      const res = await testRedis(buildRedisPayload(form))
       if (res.code === 0) {
         ElMessage({
           type: 'success',
           message: res.msg || 'Redis 连接成功'
         })
         initialState.redisCheck = true
+        redisTestSnapshot.value = getRedisTestSnapshot(form)
       }
     } finally {
       loading.close()
@@ -609,121 +669,7 @@
   }
 
   const changeDB = (val) => {
-    switch (val) {
-      case 'mysql':
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'mysql',
-          host: '127.0.0.1',
-          port: '3306',
-          userName: 'root',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: ''
-        })
-        break
-      case 'pgsql':
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'pgsql',
-          host: '127.0.0.1',
-          port: '5432',
-          userName: 'postgres',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: 'template0'
-        })
-        break
-      case 'oracle':
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'oracle',
-          host: '127.0.0.1',
-          port: '1521',
-          userName: 'oracle',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: ''
-        })
-        break
-      case 'mssql':
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'mssql',
-          host: '127.0.0.1',
-          port: '1433',
-          userName: 'mssql',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: ''
-        })
-        break
-      case 'sqlite':
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'sqlite',
-          host: '',
-          port: '',
-          userName: '',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: ''
-        })
-        break
-      default:
-        Object.assign(form, {
-          adminPassword: '123456',
-          confirmAdminPassword: '123456',
-          redisEnable: form.redisEnable,
-          redisHost: form.redisHost,
-          redisPort: form.redisPort,
-          redisPassword: form.redisPassword,
-          redisDB: form.redisDB,
-          dbType: 'mysql',
-          host: '127.0.0.1',
-          port: '3306',
-          userName: 'root',
-          password: '',
-          dbName: 'gva',
-          dbPath: '',
-          template: ''
-        })
-    }
+    Object.assign(form, getFormWithDBDefaults(form, val))
   }
 
   const onSubmit = async () => {
@@ -735,6 +681,22 @@
       return
     }
 
+    if (!initialState.dbCheck) {
+      ElMessage({
+        type: 'error',
+        message: '请先测试并确认数据库连接'
+      })
+      return
+    }
+
+    if (form.redisEnable && !initialState.redisCheck) {
+      ElMessage({
+        type: 'error',
+        message: '请先测试并确认 Redis 连接'
+      })
+      return
+    }
+
     const loading = ElLoading.service({
       lock: true,
       text: '正在初始化数据库，请稍候',
@@ -743,26 +705,7 @@
     })
 
     try {
-      const payload = {
-        adminPassword: form.adminPassword,
-        redis: {
-          host: form.redisHost,
-          port: form.redisPort,
-          password: form.redisPassword,
-          db: form.redisDB,
-          enable: form.redisEnable
-        },
-        dbType: form.dbType,
-        host: form.host,
-        port: form.port,
-        userName: form.userName,
-        password: form.password,
-        dbName: form.dbName,
-        dbPath: form.dbPath,
-        template: form.template
-      }
-
-      const res = await initDB(payload)
+      const res = await initDB(buildInitPayload(form))
       if (res.code === 0) {
         ElMessage({
           type: 'success',
@@ -795,275 +738,34 @@
       loading.close()
     }
   }
+
+  watch(
+    () => getDatabaseTestSnapshot(form),
+    (snapshot) => {
+      if (!dbTestSnapshot.value) {
+        return
+      }
+      initialState.dbCheck = dbTestSnapshot.value === snapshot
+    }
+  )
+
+  watch(
+    () => getRedisTestSnapshot(form),
+    (snapshot) => {
+      if (!form.redisEnable) {
+        initialState.redisCheck = false
+        redisTestSnapshot.value = ''
+        return
+      }
+      if (!redisTestSnapshot.value) {
+        return
+      }
+      initialState.redisCheck = redisTestSnapshot.value === snapshot
+    }
+  )
 </script>
 
 <style scoped>
-  .init-page {
-    background: radial-gradient(
-        circle at 14% 10%,
-        rgba(250, 204, 21, 0.06),
-        transparent 18%
-      ),
-      radial-gradient(
-        circle at 96% 2%,
-        rgba(59, 130, 246, 0.12),
-        transparent 16%
-      ),
-      radial-gradient(
-        circle at 5% 100%,
-        rgba(56, 189, 248, 0.12),
-        transparent 20%
-      ),
-      linear-gradient(180deg, #fbfdfd 0%, #f7fbfb 48%, #f5fbff 100%);
-  }
-
-  .init-page__glow {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(120px);
-    opacity: 0.72;
-  }
-
-  .init-page__glow--primary {
-    top: -8rem;
-    right: -4rem;
-    width: 22rem;
-    height: 22rem;
-    background: rgba(59, 130, 246, 0.2);
-  }
-
-  .init-page__glow--secondary {
-    left: -5rem;
-    bottom: -4rem;
-    width: 18rem;
-    height: 18rem;
-    background: rgba(125, 211, 252, 0.22);
-  }
-
-  .init-page__grid {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(
-        rgba(148, 163, 184, 0.045) 1px,
-        transparent 1px
-      ),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
-    background-size: 54px 54px;
-    mask-image: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.92),
-      rgba(255, 255, 255, 0.48)
-    );
-  }
-
-  .init-shell {
-    padding-bottom: 56px;
-  }
-
-  .init-brand__logo {
-    background: linear-gradient(
-      180deg,
-      rgba(30, 41, 59, 0.98),
-      rgba(30, 64, 175, 0.92)
-    );
-    color: #f8fafc;
-    font-size: 1.125rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.18),
-      0 0 0 1px rgba(255, 255, 255, 0.52) inset;
-  }
-
-  .init-panel {
-    position: relative;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.96);
-    box-shadow: 0 24px 48px rgba(148, 163, 184, 0.14),
-      0 8px 24px rgba(255, 255, 255, 0.7) inset;
-    backdrop-filter: blur(22px);
-  }
-
-  .init-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(226, 232, 240, 0.9),
-      rgba(255, 255, 255, 1)
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  .init-step-card {
-    border-radius: 22px;
-    padding: 18px 18px 20px;
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(226, 232, 240, 0.88);
-    box-shadow: 0 8px 20px rgba(148, 163, 184, 0.06);
-    transition: transform 0.2s ease, border-color 0.2s ease,
-      box-shadow 0.2s ease, background-color 0.2s ease;
-  }
-
-  .init-step-card:hover {
-    transform: translateY(-1px);
-    border-color: var(--el-color-primary-bg, rgba(59, 130, 246, 0.4));
-  }
-
-  .init-step-card.is-active {
-    background: linear-gradient(
-      180deg,
-      var(--el-color-primary-light-10, #f0f8ff),
-      rgba(255, 255, 255, 0.92)
-    );
-    border-color: var(--el-color-primary-bg, rgba(59, 130, 246, 0.4));
-    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.12);
-  }
-
-  .init-step-card.is-completed {
-    border-color: rgba(59, 130, 246, 0.22);
-    background: rgba(248, 250, 252, 0.92);
-  }
-
-  .init-step-card__index {
-    display: inline-flex;
-    margin-bottom: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    color: var(--el-color-primary, #3b82f6);
-  }
-
-  .init-step-card__title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #0f172a;
-  }
-
-  .init-step-card__desc {
-    margin-top: 8px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #64748b;
-  }
-
-  .init-section {
-    border-radius: 24px;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(226, 232, 240, 0.86);
-    box-shadow: 0 10px 26px rgba(148, 163, 184, 0.08);
-  }
-
-  .init-section__head {
-    margin-bottom: 18px;
-  }
-
-  .init-section__eyebrow {
-    margin-bottom: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    color: var(--el-color-primary, #3b82f6);
-  }
-
-  .init-section__title {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.2;
-    color: #0f172a;
-  }
-
-  .init-section__desc {
-    margin-top: 8px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #64748b;
-  }
-
-  .init-tip-card {
-    border-radius: 18px;
-    padding: 16px 18px;
-    background: rgba(248, 250, 252, 0.9);
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    color: #334155;
-    line-height: 1.7;
-  }
-
-  .init-switch-wrap {
-    display: flex;
-    min-height: 48px;
-    align-items: center;
-    gap: 12px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 0 0 1px rgb(226 232 240 / 95%);
-    padding: 0 14px;
-  }
-
-  .init-switch-label {
-    font-size: 14px;
-    color: #475569;
-  }
-
-  .init-link {
-    margin: 0 4px;
-    color: var(--el-color-primary, #3b82f6);
-    font-weight: 600;
-  }
-
-  .init-doc-btn,
-  .init-test-btn {
-    border-radius: 18px;
-    border-color: var(--el-color-primary-bg, rgba(59, 130, 246, 0.4));
-    color: var(--el-color-primary, #3b82f6);
-    background: rgba(255, 255, 255, 0.9);
-  }
-
-  .init-doc-btn:hover,
-  .init-test-btn:hover {
-    border-color: var(--el-color-primary, #3b82f6);
-    color: var(--el-color-primary-dark-1, #4d8df6);
-    background: var(--el-color-primary-light-10, #f0f8ff);
-  }
-
-  .init-submit {
-    border-radius: 18px;
-    background: linear-gradient(
-      135deg,
-      var(--el-color-primary, #3b82f6) 0%,
-      var(--el-color-primary-dark-1, #4d8df6) 100%
-    );
-    box-shadow: 0 10px 24px rgba(59, 130, 246, 0.24);
-  }
-
-  .init-submit:hover {
-    background: linear-gradient(
-      135deg,
-      var(--el-color-primary-dark-1, #4d8df6) 0%,
-      var(--el-color-primary-dark-2, #5f99f7) 100%
-    );
-  }
-
-  .init-nav-btn {
-    border-radius: 18px;
-    border-color: rgba(203, 213, 225, 0.9);
-    color: #475569;
-    background: rgba(255, 255, 255, 0.86);
-  }
-
-  .init-nav-btn:hover {
-    border-color: rgba(148, 163, 184, 0.9);
-    color: #0f172a;
-    background: #ffffff;
-  }
-
   :deep(.el-form-item) {
     margin-bottom: 0;
   }
@@ -1106,24 +808,5 @@
     min-height: 48px;
     border-radius: 14px;
     box-shadow: 0 0 0 1px rgb(226 232 240 / 95%);
-  }
-
-  @media (max-width: 1023px) {
-    .init-page {
-      background: radial-gradient(
-          circle at top,
-          rgba(59, 130, 246, 0.12),
-          transparent 28%
-        ),
-        linear-gradient(180deg, #fbfdfd 0%, #f6fbfb 100%);
-    }
-
-    .init-page__grid {
-      opacity: 0.65;
-    }
-
-    .init-shell {
-      padding-bottom: 32px;
-    }
   }
 </style>

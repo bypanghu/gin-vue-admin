@@ -1,210 +1,210 @@
-jwt:
-  signing-key: 8e9c81ee175db6beb63211832b36052a22d16ec6fd2219e1902df314e5368180
-  expires-time: 7d
-  buffer-time: 1d
-  issuer: gin-vue-admin
-zap:
-  level: info
-  prefix: "[github.com/flipped-aurora/gin-vue-admin/server]"
-  format: console
-  director: logs
-  encode-level: LowercaseLevelEncoder
-  stacktrace-key: stacktrace
-  show-line: true
-  log-in-console: true
-  retention-day: -1
-redis:
-  name: default
-  addr: localhost:6379
-  password: ""
-  db: 0
-  useCluster: false
-  clusterAddrs: []
-redis-list: []
-mongo:
-  coll: ""
-  options: ""
-  database: ""
-  username: ""
-  password: ""
-  auth-source: ""
-  min-pool-size: 0
-  max-pool-size: 100
-  socket-timeout-ms: 0
-  connect-timeout-ms: 0
-  is-zap: false
-  hosts: []
-email:
-  to: ""
-  from: ""
-  host: ""
-  secret: ""
-  nickname: ""
-  port: 0
-  is-ssl: false
-  is-loginauth: false
-system:
-  db-type: pgsql
-  oss-type: local
-  router-prefix: ""
-  addr: 8888
-  iplimit-count: 15000
-  iplimit-time: 3600
-  use-multipoint: false
-  use-redis: false
-  use-mongo: false
-  use-strict-auth: false
-  disable-auto-migrate: false
-captcha:
-  key-long: 6
-  img-width: 240
-  img-height: 80
-  open-captcha: 0
-  open-captcha-timeout: 3600
-autocode:
-  web: ""
-  root: ""
-  server: ""
-  module: ""
-  ai-path: ""
-mysql:
-  prefix: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  path: ""
-  engine: InnoDB
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  singular: false
-  log-zap: false
-mssql:
-  prefix: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  path: ""
-  engine: InnoDB
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  singular: false
-  log-zap: false
-pgsql:
-  prefix: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  path: ""
-  engine: InnoDB
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  singular: false
-  log-zap: false
-oracle:
-  prefix: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  path: ""
-  engine: InnoDB
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  singular: false
-  log-zap: false
-sqlite:
-  prefix: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  path: ""
-  engine: InnoDB
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  singular: false
-  log-zap: false
-db-list: []
-local:
-  path: data/files
-  store-path: data/files
-qiniu:
-  zone: ""
-  bucket: ""
-  img-path: ""
-  access-key: ""
-  secret-key: ""
-  use-https: false
-  use-cdn-domains: false
 aliyun-oss:
-  endpoint: ""
-  access-key-id: ""
-  access-key-secret: ""
-  bucket-name: ""
-  bucket-url: ""
-  base-path: ""
-hua-wei-obs:
-  path: ""
-  bucket: ""
-  endpoint: ""
-  access-key: ""
-  secret-key: ""
-tencent-cos:
-  bucket: ""
-  region: ""
-  secret-id: ""
-  secret-key: ""
-  base-url: ""
-  path-prefix: ""
+    endpoint: ""
+    access-key-id: ""
+    access-key-secret: ""
+    bucket-name: ""
+    bucket-url: ""
+    base-path: ""
+autocode:
+    web: ""
+    root: /Users/panghu/Documents/gva/gin-vue-admin
+    server: ""
+    module: github.com/flipped-aurora/gin-vue-admin/server
+    ai-path: ""
 aws-s3:
-  bucket: ""
-  region: ""
-  endpoint: ""
-  secret-id: ""
-  secret-key: ""
-  base-url: ""
-  path-prefix: ""
-  s3-force-path-style: false
-  disable-ssl: false
+    bucket: ""
+    region: ""
+    endpoint: ""
+    secret-id: ""
+    secret-key: ""
+    base-url: ""
+    path-prefix: ""
+    s3-force-path-style: false
+    disable-ssl: false
+captcha:
+    key-long: 6
+    img-width: 240
+    img-height: 80
+    open-captcha: 0
+    open-captcha-timeout: 3600
 cloudflare-r2:
-  bucket: ""
-  base-url: ""
-  path: ""
-  account-id: ""
-  access-key-id: ""
-  secret-access-key: ""
-minio:
-  endpoint: ""
-  access-key-id: ""
-  access-key-secret: ""
-  bucket-name: ""
-  use-ssl: false
-  base-path: ""
-  bucket-url: ""
-excel:
-  dir: ./excel
-disk-list: []
+    bucket: ""
+    base-url: ""
+    path: ""
+    account-id: ""
+    access-key-id: ""
+    secret-access-key: ""
 cors:
-  mode: ""
-  whitelist: []
+    mode: ""
+    whitelist: []
+db-list: []
+disk-list: []
+email:
+    to: ""
+    from: ""
+    host: ""
+    secret: ""
+    nickname: ""
+    port: 0
+    is-ssl: false
+    is-loginauth: false
+excel:
+    dir: ./excel
+hua-wei-obs:
+    path: ""
+    bucket: ""
+    endpoint: ""
+    access-key: ""
+    secret-key: ""
+jwt:
+    signing-key: d8f99ec0-df94-43a7-9d1a-c8781037410b
+    expires-time: 7d
+    buffer-time: 1d
+    issuer: gin-vue-admin
+local:
+    path: data/files
+    store-path: data/files
 mcp:
-  name: GVA_MCP
-  version: v1.0.0
-  sse_path: /see
-  message_path: /message
-  url_prefix: ""
-  addr: 8889
-  separate: false
+    name: GVA_MCP
+    version: v1.0.0
+    sse_path: /see
+    message_path: /message
+    url_prefix: ""
+    addr: 8889
+    separate: false
+minio:
+    endpoint: ""
+    access-key-id: ""
+    access-key-secret: ""
+    bucket-name: ""
+    use-ssl: false
+    base-path: ""
+    bucket-url: ""
+mongo:
+    coll: ""
+    options: ""
+    database: ""
+    username: ""
+    password: ""
+    auth-source: ""
+    min-pool-size: 0
+    max-pool-size: 100
+    socket-timeout-ms: 0
+    connect-timeout-ms: 0
+    is-zap: false
+    hosts: []
+mssql:
+    prefix: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    path: ""
+    engine: InnoDB
+    log-mode: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+mysql:
+    prefix: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    path: ""
+    engine: InnoDB
+    log-mode: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+oracle:
+    prefix: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    path: ""
+    engine: InnoDB
+    log-mode: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+pgsql:
+    prefix: ""
+    port: "5432"
+    config: sslmode=disable TimeZone=Asia/Shanghai
+    db-name: gva
+    username: postgres
+    password: tKoReGhdx8PQY3UQ
+    path: 10.12.0.39
+    engine: ""
+    log-mode: error
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+qiniu:
+    zone: ""
+    bucket: ""
+    img-path: ""
+    access-key: ""
+    secret-key: ""
+    use-https: false
+    use-cdn-domains: false
+redis:
+    name: default
+    addr: 10.12.0.39:6379
+    password: tKoReGhdx8PQY3UQ
+    db: 0
+    useCluster: false
+    clusterAddrs: []
+redis-list: []
+sqlite:
+    prefix: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    path: ""
+    engine: InnoDB
+    log-mode: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+system:
+    db-type: pgsql
+    oss-type: local
+    router-prefix: ""
+    addr: 8888
+    iplimit-count: 15000
+    iplimit-time: 3600
+    use-multipoint: false
+    use-redis: true
+    use-mongo: false
+    use-strict-auth: false
+    disable-auto-migrate: false
+tencent-cos:
+    bucket: ""
+    region: ""
+    secret-id: ""
+    secret-key: ""
+    base-url: ""
+    path-prefix: ""
+zap:
+    level: info
+    prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+    format: console
+    director: logs
+    encode-level: LowercaseLevelEncoder
+    stacktrace-key: stacktrace
+    show-line: true
+    log-in-console: true
+    retention-day: -1

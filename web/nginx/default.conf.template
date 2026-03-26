@@ -1,0 +1,54 @@
+server {
+    listen      80;
+    server_name localhost;
+
+    gzip ${GZIP};
+    gzip_static ${GZIP_STATIC};
+    gzip_min_length 1024;
+    gzip_comp_level 6;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/css
+        application/json
+        application/javascript
+        text/xml
+        application/xml
+        application/xml+rss
+        text/javascript
+        image/svg+xml;
+
+    location / {
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ /index.html;
+        expires 30d;
+    }
+
+    # 代理 api 服务
+    location /api {
+        proxy_connect_timeout 1h;
+        proxy_send_timeout 1h;
+        proxy_read_timeout 1h;
+
+        proxy_buffering off;   # 长时间请求关闭缓冲
+        proxy_set_header Host $http_host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        rewrite ^/api/(.*)$ /$1 break;  # 重写
+        proxy_pass http://${BACKEND}:${BACKEND_API_PORT}; # 设置代理服务器的协议和地址
+    }
+
+    # 代理 websocket 服务
+    location /ws {
+        proxy_set_header Host $http_host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection upgrade;
+        rewrite ^/ws/(.*)$ /$1 break;
+        proxy_pass http://${BACKEND}:${BACKEND_WS_PORT};
+    }
+}

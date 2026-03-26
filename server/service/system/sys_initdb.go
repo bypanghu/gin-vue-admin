@@ -11,7 +11,10 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/pkg/consts"
+	"github.com/flipped-aurora/gin-vue-admin/server/pkg/initial"
 	"github.com/flipped-aurora/gin-vue-admin/server/pkg/redis"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -91,10 +94,67 @@ func RegisterInit(order int, i SubInitializer) {
 
 type InitDBService struct{}
 
+func initHandlerForDBType(dbType string) (TypedDBInitHandler, string, error) {
+	switch dbType {
+	case Mysql:
+		return NewMysqlInitHandler(), Mysql, nil
+	case Pgsql:
+		return NewPgsqlInitHandler(), Pgsql, nil
+	case Sqlite:
+		return NewSqliteInitHandler(), Sqlite, nil
+	case Mssql:
+		return NewMssqlInitHandler(), Mssql, nil
+	default:
+		return nil, "", fmt.Errorf("%w: %s", request.ErrUnsupportedInitDBType, dbType)
+	}
+}
+
+func buildRedisConfig(conf *request.InitRedis) (config.Redis, bool) {
+	redisCfg := global.GVA_CONFIG.Redis
+	redisCfg.Name = consts.REIDS_NAME_DEFAULT
+	redisCfg.UseCluster = false
+	redisCfg.ClusterAddrs = nil
+	if conf == nil {
+		return redisCfg, false
+	}
+	if conf.Host != "" && conf.Port != "" {
+		redisCfg.Addr = fmt.Sprintf("%s:%s", conf.Host, conf.Port)
+	}
+	redisCfg.Password = conf.Password
+	redisCfg.DB = conf.DB
+	return redisCfg, conf.Enable
+}
+
+func applySharedInitConfig(ctx context.Context) {
+	if redisCfg, ok := ctx.Value("redisConfig").(config.Redis); ok {
+		global.GVA_CONFIG.Redis = redisCfg
+	}
+	if useRedis, ok := ctx.Value("useRedis").(bool); ok {
+		global.GVA_CONFIG.System.UseRedis = useRedis
+	}
+}
+
+func writeInitConfig(ctx context.Context, mutate func(*config.Server)) error {
+	mutate(&global.GVA_CONFIG)
+	applySharedInitConfig(ctx)
+	global.GVA_CONFIG.JWT.SigningKey = uuid.New().String()
+	cs := utils.StructToMap(global.GVA_CONFIG)
+	for k, v := range cs {
+		global.GVA_VP.Set(k, v)
+	}
+	return global.GVA_VP.WriteConfig()
+}
+
 // InitDB 创建数据库并初始化 总入口
 func (initDBService *InitDBService) InitDB(conf request.InitDB) (err error) {
 	ctx := context.TODO()
 	ctx = context.WithValue(ctx, "adminPassword", conf.AdminPassword)
+	if err = conf.Validate(); err != nil {
+		return err
+	}
+	redisCfg, useRedis := buildRedisConfig(conf.Redis)
+	ctx = context.WithValue(ctx, "redisConfig", redisCfg)
+	ctx = context.WithValue(ctx, "useRedis", useRedis)
 	if len(initializers) == 0 {
 		return errors.New("无可用初始化过程，请检查初始化是否已执行完成")
 	}
@@ -102,24 +162,11 @@ func (initDBService *InitDBService) InitDB(conf request.InitDB) (err error) {
 	// Note: 若 initializer 只有单一依赖，可以写为 B=A+1, C=A+1; 由于 BC 之间没有依赖关系，所以谁先谁后并不影响初始化
 	// 若存在多个依赖，可以写为 C=A+B, D=A+B+C, E=A+1;
 	// C必然>A|B，因此在AB之后执行，D必然>A|B|C，因此在ABC后执行，而E只依赖A，顺序与CD无关，因此E与CD哪个先执行并不影响
-	var initHandler TypedDBInitHandler
-	switch conf.DBType {
-	case "mysql":
-		initHandler = NewMysqlInitHandler()
-		ctx = context.WithValue(ctx, "dbtype", "mysql")
-	case "pgsql":
-		initHandler = NewPgsqlInitHandler()
-		ctx = context.WithValue(ctx, "dbtype", "pgsql")
-	case "sqlite":
-		initHandler = NewSqliteInitHandler()
-		ctx = context.WithValue(ctx, "dbtype", "sqlite")
-	case "mssql":
-		initHandler = NewMssqlInitHandler()
-		ctx = context.WithValue(ctx, "dbtype", "mssql")
-	default:
-		initHandler = NewMysqlInitHandler()
-		ctx = context.WithValue(ctx, "dbtype", "mysql")
+	initHandler, dbType, err := initHandlerForDBType(conf.DBType)
+	if err != nil {
+		return err
 	}
+	ctx = context.WithValue(ctx, "dbtype", dbType)
 	ctx, err = initHandler.EnsureDB(ctx, &conf)
 	if err != nil {
 		return err
@@ -140,6 +187,11 @@ func (initDBService *InitDBService) InitDB(conf request.InitDB) (err error) {
 	}
 	initializers = initSlice{}
 	cache = map[string]*orderedInitializer{}
+
+	// 初始化成功，创建初始化标志文件
+	if err = initial.CreateInitialLockFile(); err != nil {
+		return fmt.Errorf("创建初始化标志文件失败: %w", err)
+	}
 	return nil
 }
 
@@ -194,18 +246,12 @@ func (a initSlice) Swap(i, j int) {
 }
 
 func (initDBService *InitDBService) TestDB(ctx context.Context, conf request.TestDb) error {
-	var initHandler TypedDBInitHandler
-	switch conf.DBType {
-	case "mysql":
-		initHandler = NewMysqlInitHandler()
-	case "pgsql":
-		initHandler = NewPgsqlInitHandler()
-	case "sqlite":
-		initHandler = NewSqliteInitHandler()
-	case "mssql":
-		initHandler = NewMssqlInitHandler()
-	default:
-		initHandler = NewMysqlInitHandler()
+	if err := conf.Validate(); err != nil {
+		return err
+	}
+	initHandler, _, err := initHandlerForDBType(conf.DBType)
+	if err != nil {
+		return err
 	}
 	initDb := request.InitDB{
 		DBType:   conf.DBType,
@@ -223,6 +269,9 @@ func (initDBService *InitDBService) TestDB(ctx context.Context, conf request.Tes
 }
 
 func (initDBService *InitDBService) TestRedis(ctx context.Context, conf request.InitRedis) error {
+	if err := conf.ValidateForTest(); err != nil {
+		return err
+	}
 	redisAddr := fmt.Sprintf("%s:%s", conf.Host, conf.Port)
 	_, err := redis.InitRedisClient(config.Redis{
 		Name:         consts.REIDS_NAME_DEFAULT,

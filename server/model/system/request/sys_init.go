@@ -1,22 +1,38 @@
 package request
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/config"
 )
 
+var (
+	ErrUnsupportedInitDBType = errors.New("不支持的数据库类型")
+	ErrRedisConfigRequired   = errors.New("Redis 配置不能为空")
+	ErrRedisHostRequired     = errors.New("请输入 Redis Host")
+	ErrRedisPortRequired     = errors.New("请输入 Redis Port")
+)
+
+var supportedInitDBTypes = map[string]struct{}{
+	"mysql":  {},
+	"pgsql":  {},
+	"sqlite": {},
+	"mssql":  {},
+}
+
 type InitDB struct {
-	AdminPassword string `json:"adminPassword" binding:"required"`
-	DBType        string `json:"dbType"`                    // 数据库类型
-	Host          string `json:"host"`                      // 服务器地址
-	Port          string `json:"port"`                      // 数据库连接端口
-	UserName      string `json:"userName"`                  // 数据库用户名
-	Password      string `json:"password"`                  // 数据库密码
-	DBName        string `json:"dbName" binding:"required"` // 数据库名
-	DBPath        string `json:"dbPath"`                    // sqlite数据库文件路径
-	Template      string `json:"template"`                  // postgresql指定template
+	AdminPassword string     `json:"adminPassword" binding:"required"`
+	DBType        string     `json:"dbType"`                    // 数据库类型
+	Host          string     `json:"host"`                      // 服务器地址
+	Port          string     `json:"port"`                      // 数据库连接端口
+	UserName      string     `json:"userName"`                  // 数据库用户名
+	Password      string     `json:"password"`                  // 数据库密码
+	DBName        string     `json:"dbName" binding:"required"` // 数据库名
+	DBPath        string     `json:"dbPath"`                    // sqlite数据库文件路径
+	Template      string     `json:"template"`                  // postgresql指定template
+	Redis         *InitRedis `json:"redis,omitempty"`           // 初始化时附带的 Redis 配置
 }
 
 type TestDb struct {
@@ -31,11 +47,58 @@ type TestDb struct {
 }
 
 type InitRedis struct {
-	Host     string `json:"host" binding:"required"` // 服务器地址
-	Port     string `json:"port" binding:"required"` // Redis连接端口
-	Password string `json:"password"`                // Redis密码
-	DB       int    `json:"db"`                      // Redis数据库
-	Enable   bool   `json:"enable"`                  // 是否启用 Redis
+	Host     string `json:"host"`     // 服务器地址
+	Port     string `json:"port"`     // Redis连接端口
+	Password string `json:"password"` // Redis密码
+	DB       int    `json:"db"`       // Redis数据库
+	Enable   bool   `json:"enable"`   // 是否启用 Redis
+}
+
+func validateInitDBType(dbType string) error {
+	if _, ok := supportedInitDBTypes[dbType]; ok {
+		return nil
+	}
+	return fmt.Errorf("%w: %s", ErrUnsupportedInitDBType, dbType)
+}
+
+func (i *InitDB) Validate() error {
+	if err := validateInitDBType(i.DBType); err != nil {
+		return err
+	}
+	if i.Redis != nil {
+		return i.Redis.ValidateForInit()
+	}
+	return nil
+}
+
+func (i *TestDb) Validate() error {
+	return validateInitDBType(i.DBType)
+}
+
+func (i *InitRedis) ValidateForInit() error {
+	if i == nil || !i.Enable {
+		return nil
+	}
+	if i.Host == "" {
+		return ErrRedisHostRequired
+	}
+	if i.Port == "" {
+		return ErrRedisPortRequired
+	}
+	return nil
+}
+
+func (i *InitRedis) ValidateForTest() error {
+	if i == nil {
+		return ErrRedisConfigRequired
+	}
+	if i.Host == "" {
+		return ErrRedisHostRequired
+	}
+	if i.Port == "" {
+		return ErrRedisPortRequired
+	}
+	return nil
 }
 
 // MysqlEmptyDsn msyql 空数据库 建库链接

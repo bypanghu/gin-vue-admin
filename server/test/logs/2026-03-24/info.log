@@ -1,0 +1,62 @@
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:02:34.631	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:02:34.632	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:02:34.632	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:130	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:05:44.703	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:05:44.705	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:05:51.230	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:77	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:05:51.231	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:05:51.231	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:139	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:23.259	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:23.261	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:28.249	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:77	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:28.249	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:28.249	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:139	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:53.600	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:53.601	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:58.415	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:77	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:58.415	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:06:58.416	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:139	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:13:56.327	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:13:56.328	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:14:01.656	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:14:01.657	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:14:01.657	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:35:05.984	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:35:05.986	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:35:14.186	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:37:51.661	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:39:40.026	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:40:19.484	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:40:42.233	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:40:42.234	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:40:42.234	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:00.318	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:00.318	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:08.366	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:08.367	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:08.367	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:41:16.129	info	/Users/panghu/Documents/gva/gin-vue-admin/server/api/v1/system/sys_initdb.go:76	前往初始化数据库
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:42:10.316	info	/Users/panghu/Documents/gva/gin-vue-admin/server/pkg/redis/redis.go:34	redis connect ping response:	{"name": "default", "pong": "PONG"}
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:42.072	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:42.074	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:45.335	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/gorm.go:86	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:45.337	info	/Users/panghu/Documents/gva/gin-vue-admin/server/pkg/redis/redis.go:34	redis connect ping response:	{"name": "default", "pong": "PONG"}
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:45.339	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:43:45.359	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:06.103	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:06.104	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:09.089	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/gorm.go:86	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:09.093	info	/Users/panghu/Documents/gva/gin-vue-admin/server/pkg/redis/redis.go:34	redis connect ping response:	{"name": "default", "pong": "PONG"}
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:09.095	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:09.096	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:09.096	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:44:15.080	info	/Users/panghu/Documents/gva/gin-vue-admin/server/api/v1/system/sys_initdb.go:76	数据库无需初始化
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:45:44.426	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 13:45:44.427	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:04.699	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/gorm.go:86	register table success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:04.702	info	/Users/panghu/Documents/gva/gin-vue-admin/server/pkg/redis/redis.go:34	redis connect ping response:	{"name": "default", "pong": "PONG"}
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:04.704	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:76	register swagger handler
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:04.705	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/plugin.go:12	项目暂未初始化，无法安装插件，初始化后重启项目即可完成插件安装
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:04.705	info	/Users/panghu/Documents/gva/gin-vue-admin/server/initialize/router.go:127	router register success
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:08.998	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:48	关闭WEB服务...
+[github.com/flipped-aurora/gin-vue-admin/server]2026-03-24 14:11:08.999	info	/Users/panghu/Documents/gva/gin-vue-admin/server/core/server_run.go:59	WEB服务已关闭

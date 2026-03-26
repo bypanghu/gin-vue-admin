@@ -1,0 +1,74 @@
+services:
+  postgress:
+    image: "crpi-1hrxw3c4eln7c2uw.cn-shanghai.personal.cr.aliyuncs.com/bypanghu/postgress:18.3.0"
+    restart: always
+    environment:
+      - POSTGRESQL_USER=${POSTGRESS_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRESS_PASSWORD}
+      - POSTGRESQL_POSTGRES_PASSWORD=${POSTGRESS_PASSWORD}
+      - POSTGRESQL_DATABASE=gva
+      - POSTGRESQL_MAX_CONNECTIONS=1000
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 3
+      start_period: 30s
+    ports:
+      - "${POSTGRESS_PORT}:5432"
+    volumes:
+      - ./postgres/:/bitnami/postgresql"
+  
+  redis:
+    image: crpi-1hrxw3c4eln7c2uw.cn-shanghai.personal.cr.aliyuncs.com/bypanghu/redis:7.4.1
+    restart: always
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ALLOW_EMPTY_PASSWORD=no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - "./redis:/bitnami/redis/data"
+
+  backend:
+    image: crpi-1hrxw3c4eln7c2uw.cn-shanghai.personal.cr.aliyuncs.com/bypanghu/gva-backend:0.0.2
+    restart: always
+    ports:
+      - "8888:8888"
+    environment:
+      - GVA_DATA_PATH=data
+      - GVA_GIN_MODE=release
+      - GVA_SYSTEM_ADDR=8888
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      postgress:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  
+  frontend:
+    image: crpi-1hrxw3c4eln7c2uw.cn-shanghai.personal.cr.aliyuncs.com/bypanghu/gva-frontend:0.0.2
+    restart: always
+    environment:
+    - BACKEND=backend
+    - BACKEND_API_PORT=8888
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+networks:
+  default:
+    name: gva_net
+    driver: bridge
+    attachable: true
+    labels:
+      com.company.name: gva
+      com.company.description: gva default network
+      com.company.version: 1.0.0
